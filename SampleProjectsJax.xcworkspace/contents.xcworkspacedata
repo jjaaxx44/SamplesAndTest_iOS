@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:EmptyXIBProject/EmptyXIBProject.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:JsonParsing/JsonParsing.xcodeproj">
    </FileRef>
 </Workspace>
