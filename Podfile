@@ -1,9 +1,10 @@
 workspace 'SampleProjectsJax'
 
-target 'LotteTest' do
-  use_frameworks!
+#target 'LotteTest' do
+#  use_frameworks!
+#
+#  pod 'lottie-ios'
+#  project 'LotteTest/LotteTest'
+  
+#end
 
-	pod 'lottie-ios'
-    project 'LotteTest/LotteTest'
-
-end
