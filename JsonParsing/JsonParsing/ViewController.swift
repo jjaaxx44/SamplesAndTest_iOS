@@ -53,14 +53,25 @@ class ViewController: UIViewController {
             return
         }
         
-        URLSession.shared.dataTask(with: jsonUrlString) { (data, response, err) in
-            if (err != nil) {
-                print(err!)
+//        URLSession.shared.dataTask(with: jsonUrlString) { (data, response, err) in
+//            if (err != nil) {
+//                print(err!)
+//            }
+//            guard let data = data else { return }
+//            self.oldWayOfParsing(data: data)
+//            self.newWayOfParsing(data: data)
+//        }.resume()
+        
+        URLSession.shared.dataTask(with: jsonUrlString) { result in
+            switch result {
+            case .success(_ , let data):
+                self.newWayOfParsing(data: data)
+                break
+            case .failure(let err):
+                print(err)
+                break
             }
-            guard let data = data else { return }
-            self.oldWayOfParsing(data: data)
-            self.newWayOfParsing(data: data)
-            }.resume()
+        }.resume()
     }
     
     func newWayOfParsing(data: Data){ //swift 4+
@@ -98,3 +109,20 @@ class ViewController: UIViewController {
     }
 }
 
+
+extension URLSession {
+    func dataTask(with url: URL, result: @escaping (Result<(URLResponse, Data), Error>) -> Void) -> URLSessionDataTask {
+        return dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            guard let response = response, let data = data else {
+                let error = NSError(domain: "error", code: 0, userInfo: nil)
+                result(.failure(error))
+                return
+            }
+            result(.success((response, data)))
+        }
+    }
+}
